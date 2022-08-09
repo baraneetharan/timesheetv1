@@ -1,0 +1,42 @@
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+  top: 100px;
+}
+
+.signin-content {
+  margin: 1px;
+  padding: 1px 1rem;
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -15px;
+  //   content: '✖';
+}
+
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -15px;
+  //   content: '✔';
+}
+.image {
+  height: 100vh;
+  background-size: cover;
+  width: auto;
+  background-image: url('copied image address');
+  background-position: 50% 50%;
+}

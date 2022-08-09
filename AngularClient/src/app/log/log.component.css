@@ -1,0 +1,40 @@
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -15px;
+  content: '✖';
+}
+
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -15px;
+  content: '✔';
+}
+
+/* .btn-success {
+  color: #fff;
+  background-color: #afbeda;
+  border-color: #005a5a;
+} */
+::-webkit-scrollbar {
+  display: none;
+}
+table tr td:last-child {
+  white-space: nowrap;
+  width: 1px;
+}
+th {
+  background-color: blue;
+  color: white;
+}
+thead th {
+  background-color: #006dcc;
+  color: white;
+}

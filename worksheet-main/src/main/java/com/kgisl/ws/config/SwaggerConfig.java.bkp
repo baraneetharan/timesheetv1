@@ -1,0 +1,18 @@
+package com.kgisl.ws.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+@EnableWebMvc
+@EnableSwagger2
+@Component
+public class SwaggerConfig {
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+     .select()
+     .apis(RequestHandlerSelectors.basePackage("com.kgisl.ws.controller"))
+     .paths(PathSelectors.any())
+     .build();
+    }  
+}

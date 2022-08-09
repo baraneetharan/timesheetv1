@@ -1,0 +1,237 @@
+<div class="container">
+  <div class="logo">
+    <img
+      alt="Google"
+      src="https://raw.githubusercontent.com/baraneetharan/worksheet/main/logo2.png"
+    />
+  </div>
+  <div class="bar">
+    <input
+      type="text"
+      class="searchbar"
+      [(ngModel)]="email"
+      placeholder="Search any fields"
+      (keyup.enter)="toggleShow()"
+    />
+    <img
+      class="search"
+      src="https://www.pngitem.com/pimgs/m/463-4635654_search-icon-png-image-search-icon-png-transparent.png"
+      title="Search"
+    />
+  </div>
+  <div
+    *ngIf="isShown"
+    class="row container-fluid"
+    id="divshow"
+    style="padding:20px;height: 100vh;"
+  >
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Task Name</th>
+          <th>Description</th>
+          <th>Assigned</th>
+          <th>Assigned Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <!-- tbody -->
+      <tbody>
+        <tr
+          *ngFor="let task of tasks | customerEmailFilter: email; let i = index"
+        >
+          <td scope="row">{{ i + 1 }}</td>
+          <td>
+            <a
+              class="delete"
+              href="#editTaskModal"
+              data-toggle="modal"
+              (click)="editTask(task.id)"
+              >{{ task.taskname }}</a
+            >
+          </td>
+          <td>{{ task.description.substring(0, 30) }}</td>
+          <td>
+            <a
+              class="delete"
+              href="#viewUserModal"
+              data-toggle="modal"
+              (click)="editUser(task.assigneto)"
+              >{{ task.assigneto }}</a
+            >
+          </td>
+          <td>{{ task.assignedate }}</td>
+          <td>{{ task.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Edit Modal HTML -->
+  <div id="editTaskModal" class="modal fade">
+    <!-- <a href="#editTaskModal" class="btn btn-success" data-toggle="modal"></a> -->
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="profileForm" (submit)="addTask()">
+          <div class="modal-header">
+            <h4 class="modal-title">View Task</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Task Name</label>
+              <input
+                type="text"
+                [readonly]="true"
+                placeholder="task name"
+                id="taskname"
+                [(ngModel)]="model.taskname"
+                name="taskname"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <!-- <input type="email" class="form-control" required /> -->
+              <input
+                type="text"
+                [readonly]="true"
+                id="description"
+                [(ngModel)]="model.description"
+                name="description"
+                placeholder="description"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Assign To</label>
+              <!-- <textarea class="form-control" required></textarea> -->
+              <select
+                [disabled]="!editable"
+                id="userDropdown"
+                class="form-control"
+                [(ngModel)]="model.assigneto"
+                name="assigneto"
+                required
+              >
+                <option *ngFor="let user of users" [ngValue]="user.name">
+                  {{ user.name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Assigned Date</label>
+              <!-- <input type="text" class="form-control" required /> -->
+              <input
+                type="date"
+                [readonly]="true"
+                placeholder="assignedate"
+                id="assignedate"
+                [(ngModel)]="model.assignedate"
+                name="assignedate"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Due Date</label>
+              <!-- <input type="text" class="form-control" required /> -->
+              <input
+                type="date"
+                [readonly]="true"
+                placeholder="duedate"
+                id="duedate"
+                [(ngModel)]="model.duedate"
+                name="duedate"
+                class="form-control"
+                required
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input
+              type="button"
+              class="btn btn-default"
+              data-dismiss="modal"
+              value="Cancel"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- View Modal HTML -->
+<div id="viewUserModal" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="viewForm" (submit)="viewTask()">
+        <div class="modal-header">
+          <h4 class="modal-title">View User</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div id="parent">
+              <h5 style="text-align:w3-animate-left">
+                {{
+                  this.cuser.userid +
+                    ' | ' +
+                    this.cuser.name +
+                    ' | ' +
+                    this.cuser.email +
+                    ' | ' +
+                    this.cuser.role
+                }}
+              </h5>
+            </div>
+            <div id="left">
+              <h5 style="text-align:w3-animate-left">All Tasks</h5>
+              <div class="card-wrapper" style="width: 20em;">
+                <mat-card
+                  class="example-card"
+                  *ngFor="let card of clickedUserTasks"
+                >
+                  <mat-card-header>
+                    <mat-card-title>
+                      {{ card.taskname }}
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                      <p>{{ card.assigneto }}</p>
+                      <p>{{ card.assignedate }}</p>
+                      <p>{{ card.status }}</p>
+                    </mat-card-subtitle>
+                  </mat-card-header>
+
+                  <mat-card-content>
+                    <p>
+                      {{ card.description }}
+                    </p>
+                  </mat-card-content>
+
+                  <mat-card-actions> </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<my-sidebar *ngIf='showSideNav' [isExpanded]="sidebarExpanded" (toggleSidebar)="sidebarExpanded = !sidebarExpanded"></my-sidebar>
+
+<div class="content" *ngIf='showSideNav' [ngClass]="{ 'sidebarExpanded': sidebarExpanded }">
+  
+  <!-- <router-outlet></router-outlet> -->
+</div>
